@@ -2,77 +2,105 @@ import React, { Component } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import CustomToolbar from './Toolbar'
+import Popup from "reactjs-popup";
+import Input from './Input';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
 class BigCalendar extends Component {
 
-    constructor(){
-        super();
-        // const now = new Date();
-        const events = [
-            {
-                id: 0,
-                title: 'All Day Event very long title',
-                allDay: true,
-                start: new Date(2015, 3, 0),
-                end: new Date(2015, 3, 1),
-            },
-            {
-                id: 1,
-                title: 'Long Event',
-                start: new Date(2015, 3, 7),
-                end: new Date(2015, 3, 10),
-            },
-      
-            {
-                id: 2,
-                title: 'DTS STARTS',
-                start: new Date(2016, 2, 13, 0, 0, 0),
-                end: new Date(2016, 2, 20, 0, 0, 0),
-            },
-      
-            {
-                id: 3,
-                title: 'DTS ENDS',
-                start: new Date(2016, 10, 6, 0, 0, 0),
-                end: new Date(2016, 10, 13, 0, 0, 0),
-            },
-        ]
+    dummyEvents = [
+        {
+          allDay: false,
+          end: new Date('September 10, 2019 11:13:00'),
+          start: new Date('September 10, 2019 11:13:00'),
+          title: 'hi',
+        },
+        {
+          allDay: true,
+          end: new Date('September 13, 2019 11:13:00'),
+          start: new Date('September 13, 2019 11:13:00'),
+          title: 'All Day Event',
+        },
+      ];
 
-          this.state = {
-            name: 'React',
-            events
-          };
-    }
+    state = {
+        name: 'React',
+        open: false,
+        events: [],
+        title: '',
+        detail: ''
+      };
 
     onSelectEventHandler = (slotInfo) => {
         console.log(slotInfo)
     }
 
-    onSelectEventSlotHandler = (slotInfo) => {
+    openModal = (slotInfo) => {
+        this.setState({ open: true, slotInfo: slotInfo });
         console.log(slotInfo)
+    }
+
+    closeModal = () => {
+      this.setState({ open: false });
+    }
+
+    onTitleChange = (e) => {
+        this.setState({ title: e.target.value})
+    }
+
+    onDetailChange = (e) => {
+        this.setState({ detail: e.target.value})
+    }
+
+    onSubmit = () => {
+        let event = {
+            title: this.state.title,
+            detail: this.state.detail,  
+            start: this.state.slotInfo.slots[0],
+            end: this.state.slotInfo.slots[0]
+        }
+        this.setState({ events: [...this.state.events, event] })
+        console.log(this.state.events)
     }
 
     render() {
         return (
-            <div style={{ height: '500pt'}}>
+            <div style={{ height: '500px'}}>
                 <Calendar
                     popup
                     selectable
                     components={{toolbar: CustomToolbar}}
                     views={['month']}
                     events={this.state.events}
-                    startAccessor="start"
-                    endAccessor="end"
-                    components={{toolbar: CustomToolbar}}
                     defaultDate={moment().toDate()}
                     onSelectEvent={(slotInfo) => this.onSelectEventHandler(slotInfo)}
-                    onSelectSlot={(slotInfo) => this.onSelectEventSlotHandler(slotInfo)}
+                    onSelectSlot={(slotInfo) => this.openModal(slotInfo)}
                     localizer={localizer}
                 />
+                <Popup
+                    open={this.state.open}
+                    onClose={this.closeModal}
+                    >
+                    <div className="modal">
+                        <a className="close" onClick={this.closeModal}>
+                            &times;
+                        </a>
+                        <div className="header">Title</div>
+                        <div className="content">
+                            {/* <Input onChange={this.titleChange} placeholder="Event Title" />
+                            <Input onChange={this.locationChange} placeholder="Event Location" /> */}
+                            <input type="text" placeholder="Event Title" className="modal_input" onChange={this.onTitleChange} />
+                            <input type="text" placeholder="Event Detail" className="modal_input" onChange={this.onDetailChange} />
+                        </div>
+                        <div className="actions">
+                            <button className="modal_btn" onClick={this.onSubmit}> Save </button>
+                        </div>
+                    </div>
+                </Popup>
             </div>
+
         );
     }
 }
