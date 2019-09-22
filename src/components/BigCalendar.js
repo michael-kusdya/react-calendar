@@ -10,40 +10,26 @@ const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
 class BigCalendar extends Component {
 
-    dummyEvents = [
-        {
-          allDay: false,
-          end: new Date('September 10, 2019 11:13:00'),
-          start: new Date('September 10, 2019 11:13:00'),
-          title: 'hi',
-        },
-        {
-          allDay: true,
-          end: new Date('September 13, 2019 11:13:00'),
-          start: new Date('September 13, 2019 11:13:00'),
-          title: 'All Day Event',
-        },
-      ];
-
     state = {
         name: 'React',
-        open: false,
+        openCreate: false,
         events: [],
         title: '',
         detail: ''
       };
 
     onSelectEventHandler = (slotInfo) => {
+        this.setState({ openDetail: !this.state.openDetail, slotInfo: slotInfo });
         console.log(slotInfo)
     }
 
     openModal = (slotInfo) => {
-        this.setState({ open: true, slotInfo: slotInfo });
+        this.setState({ openCreate: !this.state.openCreate, slotInfo: slotInfo });
         console.log(slotInfo)
     }
 
     closeModal = () => {
-      this.setState({ open: false });
+      this.setState({ openCreate: false });
     }
 
     onTitleChange = (e) => {
@@ -61,7 +47,7 @@ class BigCalendar extends Component {
             start: this.state.slotInfo.slots[0],
             end: this.state.slotInfo.slots[0]
         }
-        this.setState({ events: [...this.state.events, event] })
+        this.setState({ events: [...this.state.events, event], openCreate: false })
         console.log(this.state.events)
     }
 
@@ -80,14 +66,14 @@ class BigCalendar extends Component {
                     localizer={localizer}
                 />
                 <Popup
-                    open={this.state.open}
+                    open={this.state.openCreate}
                     onClose={this.closeModal}
                     >
                     <div className="modal">
                         <a className="close" onClick={this.closeModal}>
                             &times;
                         </a>
-                        <div className="header">Title</div>
+                        <div className="header">Create Event</div>
                         <div className="content">
                             {/* <Input onChange={this.titleChange} placeholder="Event Title" />
                             <Input onChange={this.locationChange} placeholder="Event Location" /> */}
@@ -96,6 +82,21 @@ class BigCalendar extends Component {
                         </div>
                         <div className="actions">
                             <button className="modal_btn" onClick={this.onSubmit}> Save </button>
+                        </div>
+                    </div>
+                </Popup>
+                <Popup
+                    open={this.state.openDetail}
+                    onClose={this.closeModal}
+                    >
+                    <div className="modal">
+                        <a className="close" onClick={this.closeModal}>
+                            &times;
+                        </a>
+                        <div className="header">{this.state.slotInfo ? this.state.slotInfo.title : ''}</div>
+                        <div className="content">
+                            <h4>Date: {this.state.slotInfo ? this.state.slotInfo.start.toLocaleDateString() : ''}</h4>
+                            <h4>Detail: {this.state.slotInfo ? this.state.slotInfo.detail : ''}</h4>
                         </div>
                     </div>
                 </Popup>
