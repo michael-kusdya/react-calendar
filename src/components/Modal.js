@@ -24,47 +24,48 @@ class Modal extends Component {
             start: this.props.slotInfo.slots[0],
             end: this.props.slotInfo.slots[0]
         }
-        this.props.onSubmit(event)      
+        this.props.createEvent(event)      
     }
 
     render() {
-        if(this.props.openCreate ){
+        
+        let { openCreate, openDetail, slotInfo, closeModalCreate, closeModalDetail } = this.props
+
+        if(openCreate ){
             return ( 
                 <Popup
-                open={this.props.openCreate}
-                onClose={this.props.closeModalCreate}
+                    open={openCreate}
+                    onClose={closeModalCreate}
                 >
-                <div className="modal">
-                    <a className="close" onClick={this.props.closeModalCreate}>
-                      &times;
-                    </a>
-                    <div className="header">Create Event</div>
-                    <div className="content">
-                        <Input placeholder="Event Title" onChange={this.onTitleChange} />
-                        <Input placeholder="Event Detail" onChange={this.onDetailChange} />
-                        {/* <input type="text" placeholder="Event Title" className="modal_input" onChange={this.onTitleChange} />
-                        <input type="text" placeholder="Event Detail" className="modal_input" onChange={this.onDetailChange} /> */}
+                    <div className="modal">
+                        <a className="close" onClick={closeModalCreate} href="/#">
+                          &times;
+                        </a>
+                        <div className="header">Create Event</div>
+                        <div className="content">
+                            <Input placeholder="Event Title" onChange={this.onTitleChange} />
+                            <Input placeholder="Event Detail" onChange={this.onDetailChange} />
+                        </div>
+                        <div className="actions">
+                            <button className="modal_btn" onClick={this.onSubmit}>Save</button>
+                        </div>
                     </div>
-                    <div className="actions">
-                        <button className="modal_btn" onClick={this.onSubmit}>Save</button>
-                    </div>
-                </div>
-            </Popup>
+                </Popup>
             )
-        } else if(this.props.openDetail) {
+        } else if(openDetail) {
             return (
                 <Popup
-                open={this.props.closeModalDetail}
-                onClose={this.closeModal}
-            >
+                    open={openDetail}
+                    onClose={closeModalDetail}
+                >
                     <div className="modal">
-                        <a className="close" onClick={this.props.closeModalDetail}>
+                        <a className="close" onClick={closeModalDetail} href="/#">
                             &times;
                         </a>
-                        <div className="header">{this.props.slotInfo ? this.props.slotInfo.title : ''}</div>
+                        <div className="header">{slotInfo ? slotInfo.title : ''}</div>
                         <div className="content">
-                            <h4>Date: {this.props.slotInfo ? this.props.slotInfo.start.toLocaleDateString() : ''}</h4>
-                            <h4>Detail: {this.props.slotInfo ? this.props.slotInfo.detail : ''}</h4>
+                            <h4>Date: {slotInfo ? slotInfo.start.toLocaleDateString() : ''}</h4>
+                            <h4>Detail: {slotInfo ? slotInfo.detail : ''}</h4>
                         </div>
                     </div>
                 </Popup>

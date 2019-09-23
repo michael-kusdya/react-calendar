@@ -32,7 +32,7 @@ class BigCalendar extends Component {
         this.setState({ openDetail: false });
       }
 
-    onSubmit = (event) => {
+    createEvent = (event) => {
         this.setState({ events: [...this.state.events, event], openCreate: false })
     }
 
@@ -55,7 +55,7 @@ class BigCalendar extends Component {
                     slotInfo={this.state.slotInfo} 
                     closeModalDetail={this.closeModalDetail} 
                     closeModalCreate={this.closeModalCreate} 
-                    onSubmit={this.onSubmit} 
+                    createEvent={this.createEvent} 
                 />
             </div>
 
