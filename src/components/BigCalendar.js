@@ -13,7 +13,14 @@ class BigCalendar extends Component {
         slotInfo: '',
         openCreate: false,
         openDetail: false,
-        events: []
+        events: [
+            {
+                title: 'Event 1',
+                detail: 'Event Example',
+                start: new Date(),
+                end: new Date()
+            }
+        ]
       };
 
     onSelectEventHandler = (slotInfo) => {
