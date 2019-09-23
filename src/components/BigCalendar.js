@@ -49,6 +49,7 @@ class BigCalendar extends Component {
                 <Calendar
                     popup
                     selectable
+                    drilldownView="null"
                     components={{toolbar: CustomToolbar}}
                     events={this.state.events}
                     defaultDate={moment().toDate()}
