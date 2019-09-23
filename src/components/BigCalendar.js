@@ -3,7 +3,6 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import CustomToolbar from './Toolbar'
 import Modal from './Modal'
-import Input from './Input';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment); // or globalizeLocalizer

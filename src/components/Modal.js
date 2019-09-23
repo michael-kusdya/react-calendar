@@ -40,8 +40,10 @@ class Modal extends Component {
                     </a>
                     <div className="header">Create Event</div>
                     <div className="content">
-                        <input type="text" placeholder="Event Title" className="modal_input" onChange={this.onTitleChange} />
-                        <input type="text" placeholder="Event Detail" className="modal_input" onChange={this.onDetailChange} />
+                        <Input placeholder="Event Title" onChange={this.onTitleChange} />
+                        <Input placeholder="Event Detail" onChange={this.onDetailChange} />
+                        {/* <input type="text" placeholder="Event Title" className="modal_input" onChange={this.onTitleChange} />
+                        <input type="text" placeholder="Event Detail" className="modal_input" onChange={this.onDetailChange} /> */}
                     </div>
                     <div className="actions">
                         <button className="modal_btn" onClick={this.onSubmit}>Save</button>
