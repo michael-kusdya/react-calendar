@@ -20,16 +20,14 @@ class Modal extends Component {
     onSubmit = () => {
         let event = {
             title: this.state.title,
-            detail: this.state.detail,  
-            start: this.props.slotInfo.slots[0],
-            end: this.props.slotInfo.slots[0]
+            detail: this.state.detail
         }
         this.props.createEvent(event)      
     }
 
     render() {
         
-        let { openCreate, openDetail, slotInfo, closeModalCreate, closeModalDetail } = this.props
+        let { openCreate, openDetail, closeModalCreate, closeModalDetail } = this.props
 
         if(openCreate ){
             return ( 
@@ -62,10 +60,10 @@ class Modal extends Component {
                         <a className="close" onClick={closeModalDetail} href="/#">
                             &times;
                         </a>
-                        <div className="header">{slotInfo ? slotInfo.title : ''}</div>
+                        <div className="header"></div>
                         <div className="content">
-                            <h4>Date: {slotInfo ? slotInfo.start.toLocaleDateString() : ''}</h4>
-                            <h4>Detail: {slotInfo ? slotInfo.detail : ''}</h4>
+                            <h4>Date: </h4>
+                            <h4>Detail: </h4>
                         </div>
                     </div>
                 </Popup>
